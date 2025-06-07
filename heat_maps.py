@@ -58,7 +58,7 @@ with pd.ExcelWriter(combined_path, engine="openpyxl") as writer:
             format='%Y%m%d%H%M%S'
         )
         d1.sort_values('datetime', inplace=True)
-        d1['ampl_pct'] = (d1['high'] - d1['low']) / d1['close'] * 100
+        d1['ampl_pct'] = 2 * (d1['high'] - d1['low']) / (d1['high'] + d1['low']) * 100
         print(f"    ✔ D1 обработан: {len(d1)} строк")
 
         # Читаем H1
@@ -76,7 +76,7 @@ with pd.ExcelWriter(combined_path, engine="openpyxl") as writer:
             format='%Y%m%d%H%M%S'
         )
         h1.sort_values('datetime', inplace=True)
-        h1['ampl_pct'] = (h1['high'] - h1['low']) / h1['close'] * 100
+        h1['ampl_pct'] = 2 * (h1['high'] - h1['low']) / (h1['high'] + h1['low']) * 100
         h1['hour'] = h1['datetime'].dt.strftime('%H:%M')
         h1['weekday'] = (h1['datetime'] - pd.Timedelta(hours=3)).dt.weekday
         h1['weekday_name'] = h1['weekday'].map({0:'Пн', 1:'Вт', 2:'Ср', 3:'Чт', 4:'Пт', 5:'Сб', 6:'Вс'})
